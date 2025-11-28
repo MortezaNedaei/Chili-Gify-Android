@@ -70,6 +70,16 @@ class GiphyPagingSourceTest {
             original = ImageDetails(
                 url = "http://example.com/gif",
                 width = "200",
+                height = "200",
+            ),
+            fixedWidthDownsampled = ImageDetails(
+                url = "http://example.com/gif",
+                width = "200",
+                height = "200"
+            ),
+            fixedWidthStill = ImageDetails(
+                url = "http://example.com/gif",
+                width = "200",
                 height = "200"
             )
         )

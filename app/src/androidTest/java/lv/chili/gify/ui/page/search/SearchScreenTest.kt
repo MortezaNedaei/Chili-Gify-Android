@@ -4,6 +4,7 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.paging.PagingData
+import coil.ImageLoader
 import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
@@ -32,10 +33,12 @@ class SearchScreenTest {
         every { viewModel.searchQuery } returns query
 
         val onGifClick: (GifData) -> Unit = mockk(relaxed = true)
+        val imageLoader: ImageLoader = mockk(relaxed = true)
 
         composeTestRule.setContent {
             SearchScreen(
                 viewModel = viewModel,
+                imageLoader = imageLoader,
                 onGifClick = onGifClick
             )
         }
@@ -56,6 +59,16 @@ class SearchScreenTest {
                 height = "200"
             ),
             original = ImageDetails(
+                url = "http://example.com/gif",
+                width = "200",
+                height = "200"
+            ),
+            fixedWidthDownsampled = ImageDetails(
+                url = "http://example.com/gif",
+                width = "200",
+                height = "200"
+            ),
+            fixedWidthStill = ImageDetails(
                 url = "http://example.com/gif",
                 width = "200",
                 height = "200"
