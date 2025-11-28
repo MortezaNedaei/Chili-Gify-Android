@@ -2,6 +2,10 @@
 
 This is a simple Android application that allows users to search for GIFs using the Giphy API.
 
+## Demo App Link: 
+
+Download the Demo app from [this link](https://github.com/MortezaNedaei/Chili-Gify-Android/blob/master/Chili-Giphy-1.0-universal-release.apk) 
+
 ## Technology
 
 - ✅ Android Studio Otter 2
