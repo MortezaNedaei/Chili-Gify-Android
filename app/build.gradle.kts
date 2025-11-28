@@ -39,7 +39,7 @@ android {
         setProperty("archivesBaseName", "Chili-Giphy-$versionName")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
-        buildConfigField("String", "GIPHY_API_KEY", "\"IZtWbA29LY8kygcVKslc3LZ2MJbq8NWQ\"")
+        buildConfigField("String", "GIPHY_API_KEY", "\"DDeeyfNvio7i8Br2vjWeEUR3BU7t5qHx\"")
     }
 
     buildTypes {

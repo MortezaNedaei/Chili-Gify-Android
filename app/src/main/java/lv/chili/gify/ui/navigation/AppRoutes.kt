@@ -1,11 +1,13 @@
 package lv.chili.gify.ui.navigation
 
 import androidx.compose.runtime.Composable
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.navArgument
+import coil.ImageLoader
 import lv.chili.gify.ui.page.detail.DetailScreen
 import lv.chili.gify.ui.page.search.SearchScreen
 import java.net.URLDecoder
@@ -28,7 +30,10 @@ object AppRoutes {
  * Sets up the main navigation graph for the application.
  */
 @Composable
-fun AppNavGraph(navController: NavHostController) {
+fun AppNavGraph(
+    navController: NavHostController,
+    imageLoader: ImageLoader
+) {
 
     NavHost(
         navController = navController,
@@ -36,6 +41,8 @@ fun AppNavGraph(navController: NavHostController) {
     ) {
         composable(route = AppRoutes.SEARCH) {
             SearchScreen(
+                viewModel = hiltViewModel(),
+                imageLoader = imageLoader,
                 onGifClick = { gifData ->
                     val encodedUrl = URLEncoder.encode(
                         gifData.images.original.url,
@@ -66,6 +73,7 @@ fun AppNavGraph(navController: NavHostController) {
             DetailScreen(
                 gifUrl = gifUrl,
                 title = gifTitle,
+                imageLoader = imageLoader,
                 onBackPress = {
                     navController.popBackStack()
                 }

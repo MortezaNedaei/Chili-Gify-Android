@@ -23,9 +23,10 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.paging.compose.itemContentType
+import androidx.paging.compose.itemKey
+import coil.ImageLoader
 import coil.compose.SubcomposeAsyncImage
 import lv.chili.gify.R
-import lv.chili.gify.data.gif.rememberGifImageLoader
 import lv.chili.gify.data.model.GifData
 import lv.chili.gify.ui.components.ErrorMessage
 import lv.chili.gify.ui.components.Loading
@@ -33,6 +34,7 @@ import lv.chili.gify.ui.components.Loading
 @Composable
 fun SearchScreen(
     viewModel: SearchViewModel = hiltViewModel(),
+    imageLoader: ImageLoader,
     onGifClick: (GifData) -> Unit
 ) {
     val query by viewModel.searchQuery.collectAsStateWithLifecycle()
@@ -53,11 +55,16 @@ fun SearchScreen(
                 content = {
                     items(
                         count = lazyGifItems.itemCount,
+                        key = lazyGifItems.itemKey { it.uniqueId },
                         contentType = lazyGifItems.itemContentType { "GifGridItem" }
                     ) { index ->
                         val gif = lazyGifItems[index]
                         if (gif != null) {
-                            GifGridItem(gif = gif, onClick = { onGifClick(gif) })
+                            GifGridItem(
+                                gif = gif,
+                                imageLoader = imageLoader,
+                                onClick = { onGifClick(gif) }
+                            )
                         }
                     }
                     lazyGifItems.loadState.apply {
@@ -110,12 +117,16 @@ fun SearchScreen(
 }
 
 @Composable
-fun GifGridItem(gif: GifData, onClick: () -> Unit) {
+fun GifGridItem(gif: GifData, imageLoader: ImageLoader, onClick: () -> Unit) {
+    val imageUrl = gif.images.fixedWidthStill.url
+    // we can also use the following urls
+    // val imageUrl = gif.images.fixedWidthDownsampled.webp ?: gif.images.fixedWidthDownsampled.url
+
     SubcomposeAsyncImage(
-        model = gif.images.fixedWidth.url,
+        model = imageUrl,
         contentDescription = gif.title,
         contentScale = ContentScale.Fit,
-        imageLoader = rememberGifImageLoader(),
+        imageLoader = imageLoader,
         loading = {
             Loading(
                 modifier = Modifier.padding(16.dp),

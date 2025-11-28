@@ -16,13 +16,18 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import coil.ImageLoader
 import coil.compose.AsyncImage
-import lv.chili.gify.data.gif.rememberGifImageLoader
 import lv.chili.gify.utils.rememberCircularProgressPainter
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun DetailScreen(gifUrl: String, title: String, onBackPress: () -> Unit) {
+fun DetailScreen(
+    gifUrl: String,
+    title: String,
+    imageLoader: ImageLoader,
+    onBackPress: () -> Unit
+) {
     Scaffold(modifier = Modifier.fillMaxSize(), topBar = {
         TopAppBar(
             title = {
@@ -51,7 +56,7 @@ fun DetailScreen(gifUrl: String, title: String, onBackPress: () -> Unit) {
         ) {
             AsyncImage(
                 model = gifUrl,
-                imageLoader = rememberGifImageLoader(),
+                imageLoader = imageLoader,
                 placeholder = rememberCircularProgressPainter(),
                 contentDescription = title,
                 modifier = Modifier.fillMaxWidth()
